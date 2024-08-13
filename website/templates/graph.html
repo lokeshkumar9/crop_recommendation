@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>pH Values Graph</title>
+</head>
+<body>
+    <h1 style="color: blue; text-align: center;">60 Years Rainfall data of {{ state_name }}</h1>
+    {% if img_str %}
+    <img src="data:image/png;base64,{{ img_str }}" alt="pH Values Graph" width="1600" height="530" style="margin-left: 10px;">
+    {% else %}
+    <p>No data available for the selected state.</p>
+    {% endif %}
+    <h1 style="color: blue; text-align: center;">10 Years ph values data of {{ state_name }}</h1>
+    {% if img_str %}
+    <img src="data:image/png;base64,{{ img_str2 }}" alt="pH Values Graph" width="1000" height="500" style="margin-left: 10px;">
+    {% else %}
+    <p>No data available for the selected state.</p>
+    {% endif %}
+</body>
+</html>

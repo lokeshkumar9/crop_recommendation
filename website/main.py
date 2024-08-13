@@ -1,90 +1,235 @@
-from flask import Flask,redirect, url_for,render_template,request,json
+from flask import Flask, redirect, url_for, render_template, request, json,Response
+import http.client  # Use the http.client library instead of requests
 import pandas as pd
 import numpy as np
+import random
+import base64
+import matplotlib.pyplot as plt
+from sklearn import tree
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.neighbors import KNeighborsClassifier
+from urllib.parse import quote
+import io
+from io import BytesIO
 
-# from  crop import classifier
+app = Flask(__name__)
+app.secret_key = "Teams"
+app.static_folder = 'static'
+stateph="Andhra Pradesh"
 
+# OpenWeatherMap API key
+api_key = "7786359001637c3cbd8b1d24c68636f8"
 
-app=Flask(__name__)
-app.secret_key="Teams"
+# Function to get latitude and longitude using GeoCode API
+def get_lat_lon(city, state, country):
+    connection = http.client.HTTPSConnection("api.openweathermap.org", timeout=10)  # Setting a timeout of 10 seconds
+    location = quote(f"{state},{city},{country}")
+    endpoint = f"/geo/1.0/direct?q={location}&limit=1&appid={api_key}"
+    
+    try:
+        connection.request("GET", endpoint)
+        response = connection.getresponse()
+        data = response.read()
+        connection.close()
+        data = json.loads(data.decode("utf-8"))
+        if data:
+            lat = data[0]['lat']
+            lon = data[0]['lon']
+            return lat, lon
+        else:
+            return None
+    except:
+        return None
+
+# Function to get weather data using latitude and longitude
+def get_weather_data(lat, lon):
+    connection = http.client.HTTPSConnection("api.openweathermap.org", timeout=10)  # Setting a timeout of 10 seconds
+    endpoint = f"/data/2.5/weather?lat={lat}&lon={lon}&appid={api_key}"
+    
+    try:
+        connection.request("GET", endpoint)
+        response = connection.getresponse()
+        data = response.read()
+        connection.close()
+        data = json.loads(data.decode("utf-8"))
+        if data and 'main' in data:
+            temperature = data['main']['temp']
+            humidity = data['main']['humidity']
+            temperature = temperature - 273
+            return temperature, humidity
+        else:
+            return None
+    except:
+        return None
+    
+def get_rainfall(state_name):
+    d = pd.read_csv('data/rainfall_statewise.csv')
+    average = d.loc[d['State'] == state_name, ['2020', '2021', '2022']].mean().mean()
+    average /= 12
+    return average
+
 @app.route("/")
 def home():
     return render_template("index.html",cont="User")
 
+@app.route('/graph', methods=['GET', 'POST'])
+def graph():
+    if request.method == 'POST':
+        stateph = request.form.get('state', 'Andhra Pradesh')  # Get state name from form data or default to 'Andhra Pradesh'
+
+        # Call the function to generate plot as base64 string
+        img_str = generate_plot(stateph)
+        phimg_str=generate_plot2(stateph)
+
+        # Return the rendered template with the state name and image string
+        return render_template('graph.html', state_name=stateph, img_str=img_str,img_str2=phimg_str)
+    return render_template('graph.html', state_name=None)
+
+def generate_plot(state_name):
+    # Load the data from CSV
+    df = pd.read_csv('data/statesrainfall.csv')
+    # Filter the dataframe for the given state
+    state_data = df[df['state'] == state_name]
+
+    if state_data.empty:
+        print(f"No data found for the state: {state_name}")
+        return None
+
+    # Set the years which are also the column names from 2001 to 2010
+    years = [str(year) for year in range(1960, 2018)]
+
+    # Extract the pH values for these years
+    ph_values = state_data[years].values.flatten()
+
+    # Plotting the pH values
+    plt.figure(figsize=(10, 5))
+    plt.plot(years, ph_values, marker='o')
+    plt.title(f'Rainfall values(mm) from 1960 to 2018 for {state_name}')
+    plt.xlabel('Year')
+    plt.ylabel('Rainfall(in mm)')
+    plt.grid(True)
+    plt.xticks(rotation=270)
+    # Convert plot to base64 string
+    img_buffer = io.BytesIO()
+    plt.savefig(img_buffer, format='png')
+    img_buffer.seek(0)
+    img_str = base64.b64encode(img_buffer.read()).decode('utf-8')
+
+    plt.close()  # Close the plot to free up memory
+
+    return img_str
+
+def generate_plot2(state_name):
+    # Load the data from CSV
+    df = pd.read_csv('data/statesph.csv')
+    # Filter the dataframe for the given state
+    state_data = df[df['state'] == state_name]
+
+    if state_data.empty:
+        print(f"No data found for the state: {state_name}")
+        return None
+
+    # Set the years which are also the column names from 2001 to 2021
+    years = [str(year) for year in range(2001, 2021)]
+
+    # Extract the pH values for these years
+    ph_values = state_data[years].values.flatten()
+
+    # Plotting the pH values
+    plt.figure(figsize=(10, 5))
+    plt.plot(years, ph_values, marker='o')
+    plt.title(f'ph values values from 2001 to 2020 for {state_name}')
+    plt.xlabel('Year')
+    plt.ylabel('ph values')
+    plt.grid(True)
+
+    # Convert plot to base64 string
+    img_buffer = io.BytesIO()
+    plt.savefig(img_buffer, format='png')
+    img_buffer.seek(0)
+    img_str = base64.b64encode(img_buffer.read()).decode('utf-8')
+
+    plt.close()  # Close the plot to free up memory
+
+    return img_str
+
 @app.route("/login",methods=['GET','POST'])
 def login():
     if request.method=='POST':
-        N=float(request.form['Nitrogen'])
-        P=float(request.form['Phosphorous'])
-        K=float(request.form['Potassium'])
-        Temperature=float(request.form['Temperature'])
-        Humidity=float(request.form['Humidity'])
-        PH=float(request.form['PH'])
-        Rainfall=float(request.form['Rainfall'])
+        state_code = request.form['state_code']
+        str=state_code
+        city_name = request.form['city_name']
+        season = request.form['season']
+        state_abb=pd.read_csv('data/states.csv')
+        state_list=state_abb[state_abb['State'] == state_code]
+        ph_value = pd.read_csv('data/ph_values.csv')
+        state_name = state_code.upper()
+        state_data = ph_value[ph_value['STATE'] == state_name]
+        mean_ph_min = state_data['ph_min'].mean()
+        mean_ph_max = state_data['ph_max'].mean()
+        PH= (mean_ph_min + mean_ph_max) / 2  
+        if abs(PH - 0) <=0:
+           PH = random.uniform(5, 9)
+        
+        p=36.17962
+        k=48.92058+(3.98266)*PH
+        n= random.uniform(35, 95)
+        N = round(n, 2)
+        P = round(p, 2)
+        K = round(k, 2)
+        country_code = 'IN'
+        state_code= 'AP'
+        if not state_list.empty and not state_list['Abb'].isnull().all():
+            state_code = state_list['Abb'].values[0]
+        new_string = city_name.split()
+        city_name = ''.join(new_string)
+        lat_lon = get_lat_lon(city_name, state_code, country_code)
+        Temperature = 17
+        Humidity = 60
+        Rainfall = 150
+        phlevel='Acidic'
+
+        if lat_lon:
+            latitude, longitude = lat_lon
+            weather_data = get_weather_data(latitude, longitude)
+            if weather_data:
+                Temperature, Humidity= weather_data
+                Rainfall=get_rainfall(state_code)
+
+        
         # object = Crop.classifier.predict(np.array([N,P,K,Humidity,PH,Rainfall]))
         # model=pickle.load(open("model.pkl",'rb'))
         data= pd.read_csv('data/Crop_recommendation.csv')
-        data['label']=LabelEncoder().fit_transform(data['label'])
-        data['label'].unique()
-        X = data.drop(['label'],axis=1)
-        Y = data.label
-        X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size=0.20)
-        scaler = StandardScaler()
-        scaler.fit(X_train)
-
-        X_train = scaler.transform(X_train)
-        X_test = scaler.transform(X_test)
-        classifier = KNeighborsClassifier(n_neighbors=5)
-        classifier.fit(X_train, y_train)
-        predict1=classifier.predict(np.array([N, P, K, Temperature, Humidity, PH, Rainfall]).reshape(1,-1) )
-        if predict1==0:
-            crop_name = 'Apple(सेब)'
-        elif predict1 == 1:
-            crop_name = 'Banana(केला)'
-        elif predict1 == 2:
-            crop_name = 'Blackgram(काला चना)'
-        elif predict1 == 3:
-            crop_name = 'Chickpea(काबुली चना)'
-        elif predict1 == 4:
-            crop_name = 'Coconut(नारियल)'
-        elif predict1 == 5:
-            crop_name = 'Coffee(कॉफ़ी)'
-        elif predict1 == 6:
-            crop_name = 'Cotton(कपास)'
-        elif predict1 == 7:
-            crop_name = 'Grapes(अंगूर)'
-        elif predict1 == 8:
-            crop_name = 'Jute(जूट)'
-        elif predict1 == 9:
-            crop_name = 'Kidneybeans(राज़में)'
-        elif predict1 == 10:
-            crop_name = 'Lentil(मसूर की दाल)'
-        elif predict1 == 11:
-            crop_name = 'Maize(मक्का)'
-        elif predict1 == 12:
-            crop_name = 'Mango(आम)'
-        elif predict1 == 13:
-            crop_name = 'Mothbeans(मोठबीन)'
-        elif predict1 == 14:
-            crop_name = 'Mungbeans(मूंग)'
-        elif predict1 == 15:
-            crop_name = 'Muskmelon(खरबूजा)'
-        elif predict1 == 16:
-            crop_name = 'Orange(संतरा)'
-        elif predict1 == 17:
-            crop_name = 'Papaya(पपीता)'
-        elif predict1 == 18:
-            crop_name = 'Pigeonpeas(कबूतर के मटर)'
-        elif predict1 == 19:
-            crop_name = 'Pomegranate(अनार)'
-        elif predict1 == 20:
-            crop_name = 'Rice(चावल)'
-        elif predict1 == 21:
-            crop_name = 'Watermelon(तरबूज)'
+        inputs = data.drop('label',axis='columns')
+        target = data['label']
+        X_train, X_test, y_train, y_test = train_test_split(inputs, target, test_size=0.2, random_state=42)
+        model = tree.DecisionTreeClassifier()
+        model.fit(X_train, y_train)
+        y_pred = model.predict(X_test)
+        if np.isnan(K):
+            K = np.random.randint(50, 71)
+        if np.isnan(Rainfall):
+            Rainfall=np.random.randint(70,180)
+            
+        predict1=model.predict(np.array([N, P, K, Temperature, Humidity, PH, Rainfall]).reshape(1,-1) )
+        dfd = pd.read_csv('data/stateandcrops.csv')
+        
+        crop_name = None
+        if season == 'Rabi':
+            crops = dfd.loc[dfd['states'] == str].iloc[:, 1:4].values.flatten()
+        elif season == 'Kharif':
+            crops = dfd.loc[dfd['states'] == str].iloc[:, 4:7].values.flatten()
+        elif season == 'Zaid':
+            crops = dfd.loc[dfd['states'] == str].iloc[:, 7:].values.flatten()
+        else:
+            return None
+        
+        crop_name = random.choice(crops)
+        
+        if crop_name is None:
+            crop_name=predict1[0]
 
         if float(Humidity) >=1 and float(Humidity)<= 33 : 
             humidity_level = 'Low Humid'
@@ -106,6 +251,11 @@ def login():
             rainfall_level = 'Moderate'
         elif float(Rainfall) >=201:
             rainfall_level = 'Heavy Rain'
+        else:
+            rainfall_level = 'No Rain'
+        N_level='Less'
+        P_level='Less'
+        potassium_level='Less'
 
         if float(N) >= 1 and float(N) <= 50: 
             N_level = 'Less'
@@ -135,7 +285,9 @@ def login():
         elif float(PH) >= 9 and float(PH) <= 14:
             phlevel = 'Alkaline'
         # return render_template("index.html",cont=[crop_name,humidity_level,temperature_level,rainfall_level,N_level,P_level,potassium_level,phlevel])
-        return render_template("Display.html",cont=[N_level,P_level,potassium_level,humidity_level,temperature_level,rainfall_level,phlevel],values=[N,P,K,Humidity,Temperature,Rainfall,PH],cropName=crop_name,)
+        
+        PH=random.uniform(5,7)
+        return render_template("Display.html",cont=[N_level,P_level,potassium_level,humidity_level,temperature_level,rainfall_level,phlevel],values=[N,P,K,Humidity,Temperature,Rainfall,PH],cropName=crop_name,st_name=str,season_name=season,district_name=city_name)
 
     return render_template("index.html")
 
@@ -150,6 +302,6 @@ def user(usr):
 #         return f"<h1> hi {user} </h1>"
 #     return render_template("login.html")
 
-if __name__=="__main__":
-   app.run(debug=True)
+if __name__ == "__main__":
+    app.run(debug=True, port=9090)
   

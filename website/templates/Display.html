@@ -1,6 +1,6 @@
 {% extends "base.html" %} {%block content%}Crop Prediction Result{% endblock%} {%block body%}
-
-<div style="margin-top:30vh">
+<h1 style="color: rgb(180, 180, 226);">displaying the weather conditions below for the district {{district_name}}</h1>
+<div style="margin-top:18vh">
     <table>
         <tr>
             <th>N Level (in kg/hectre)</th>
@@ -33,8 +33,15 @@
             {%endfor%}
         </tr>
     </table>
-    <h1 style="text-shadow: 3px 3px 3px violet;">Best crop to grow in this condition is {{ cropName}}
+    <h1 style="text-shadow: 3px 3px 3px violet;">Best crop to grow based on above weather condition in the season {{season_name}} is <span style="background-color: yellow;color:red;">{{ cropName }}</span>
+
     </h1>
+    <p>click beow button to view the graph based analysis</p>
+    <form action="/graph" method="post">
+        <input type="hidden" name="state" value="{{ st_name }}">
+        <button type="submit">View Graphs</button>
+    </form>
+    
 </div>
 {% endblock%}
 </table>

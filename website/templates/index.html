@@ -1,99 +1,440 @@
 {% extends "base.html" %}{%block content%}Details collection{% endblock%} {%block body%}
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
 <style>
+
     * {
         margin: 0;
         padding: 0;
+        
+        
+  
     }
     
     html {
         font-size: 62.5%;
+        font-family:'Times New Roman', Times, serif;
         box-sizing: border-box;
+        background-image: url("https://images.unsplash.com/photo-1434725039720-aaad6dd32dfe?q=80&w=1642&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
     }
     
     body {
-        height: 100vh;
-        background-color: greenyellow;
+        background-color: #cae9ff;
+        
+        background-image: url("https://images.unsplash.com/photo-1434725039720-aaad6dd32dfe?q=80&w=1642&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+        background-repeat: no-repeat;
+  background-size: 1900px 1000px;
+  /* zoom: 1;
+filter: alpha(opacity=50);
+opacity: 0.55; */
+background-color: rgba(247, 247, 247, 0.5);
     }
+    .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(137, 200, 116, 0); /* Semi-transparent white background */
+}
+
+            
+
     
-    h3 {
-        color: antiquewhite;
+    
+    h3{
+        color: rgb(0, 0, 0);
         margin-left: 2rem;
+        font-size: 25px;
     }
     
-    h1 {
-        margin: 20px;
-        word-spacing: 10px;
-    }
-    
-    .form {
-        margin: auto;
-        margin-top: 20%;
-        padding: 30px;
+    header h1 {
+  font-size: 70px;
+  font-weight: 500;
+  color: #000000;
+  text-shadow: 0px 0px 5px #dedede, 0px 0px 10px #ffffff, 0px 0px 10px #ffffff,
+    0px 0px 20px #ffffff;
+  border-right: 4px solid #000000;
+  animation: typing 7s steps(30) forwards; /* Removed infinite iteration */
+  white-space: nowrap;
+  overflow: hidden;
+  margin: 0;
+}
+
+    .form,.form-group {
+      border-color: #000000;
+        border-radius: 7px;
+        border-style:double ;
+        border-width: 4px;
+        margin-left: 40%;
+        margin-top: 4%;
+        padding: 40px 65px;
         width: 250px;
-        background-color: black;
-        border-radius: 9px;
+        box-shadow: 3px 2px 2px 2px rgb(108, 108, 108);
+ zoom: 1;
+filter: alpha(opacity=50);
+opacity: 0.85;  
+       
+        font-size: 20px;
+        font-weight: lighter;
+        
+        
     }
     
-    .box {
+    .box ,.form-group{
         margin: 10px;
         padding: 4px;
         width: 200px;
         border: 50px;
         border-radius: 7px;
+        font-size: 16px;
+        
     }
-    
-    .button {
-        background: orangered;
-        width: auto;
-        margin: 2rem;
-        border: solid 1px orange;
-        color: white;
-        text-shadow: 0 1px 0 rgb(220, 150, 21);
-        transition: all 1s;
-    }
-    
-    .button:hover {
-        box-shadow: 0 8px 16px 0 black, 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-        padding: 1.2rem;
-        margin: 1.2rem;
-    }
-    
-    .button:active {
-        border-color: rgb(20, 16, 14);
-    }
-</style>
-<div class="form">
-    <form action="/login" method="post">
-        <!-- Name:
-    <input type="text" name="nm" placeholer="Name" />
-    <p><input type="submit" value="submit" /></p> -->
-        <!-- <form action="#"> -->
-        <h1 style="color: orangered;text-shadow: 3px 3px 3px violet;">
-            <center>Submit Details</center>
-        </h1>
-        <h3>Nitrogen</h3>
-        </p><input type="number" step="any" min="1" max="200" name="Nitrogen" placeholder="Nitrogen in soil" class="box" required />
-        <br />
-        <h3>Phosphorous</h3>
-        <input type="number" step="any" min="1" max="200" name="Phosphorous" placeholder="Phosphorous in soil" class="box" required /><br />
-        <h3>Potassium</h3>
-        <input type="number" step="any" min="1" max="200" name="Potassium" placeholder="Potassium in soil" class="box" required /><br />
-        <h3>Temperature</h3>
-        <input type="number" step="any" min="1" max="65" name="Temperature" placeholder="Temperature in degree" class="box" required /><br />
-        <h3>Humidity</h3>
-        <input type="number" step="any" min="1" max="100" name="Humidity" placeholder="Humidity in percentage" class="box" required /><br />
-        <h3>PH</h3>
-        <input type="number" step="any" min="1" max="14" name="PH" placeholder="PH from 1-14" class="box" required /><br />
-        <!-- <select name="PH" class="" id="selection">
-            <option value="Select">Select</option>
-            {%for i in range(1,15):%}
-            <option value=5>{{i}}</option>
-            {%endfor%}
-        </select> -->
-        <h3>Rainfall</h3>
-        <input type="number" step="any" min="" max="" name="Rainfall" placeholder="Rainfall in mm" class="box" required /><br />
 
-        <p><input type="submit" class="button" value=" Submit " /></p>
-    </form>
-</div>
+    .button {
+          
+
+          background: #2dc653;
+          color: #ffffff;
+          font-size: 20px;
+          
+          border-radius: 8px;
+          display: inline-block;
+          text-transform: uppercase;
+          padding: 0.5em 2em;
+          border: 2px solid #000000;
+          margin-top: 20px;
+          transition: 0.02s 0.2s cubic-bezier(.1, 0, .1, 1);
+     }
+
+    .button:hover {
+          padding: 0.5em 3.5em 0.5em 0.5em;
+          background-color: #155d27;
+          color: #ffffff;
+     }
+
+
+     @import url('https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap');
+
+header {
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+}
+
+
+
+@keyframes cursor{
+  0%, 100%{border-color: transparent;}
+  50%{border-color: #000;}
+}
+
+
+  @keyframes typing {
+        0% {
+      width: 0ch; /* Text is hidden */
+    }
+
+    33.33% {
+      width: 16ch; /* Display the entire "Crop" word */
+    }
+
+    66.66% {
+      width: 32ch; /* Display the entire "Recommendation" word */
+    }
+
+    100% {
+      width: 48ch; /* Display the entire "System" word */
+    }
+  }
+
+  h2 {
+  font-size: 30px;
+  font-weight: 400;
+  color: #0b0b0b;
+  text-shadow: 0px 0px 5px #93d1d3, 0px 0px 10px #0ecd9a, 0px 0px 10px #0a9bae,
+    0px 0px 20px #efefed;
+}
+
+
+     
+</style>
+</head>
+
+<div class="overlay">
+
+<header>
+    <h1>Crop Recommendation System</h1>
+</header>
+<body>
+  
+
+  
+  <div class="form">
+    <form action="/login" method="post">
+
+        <h2> Enter the values:</h2><br><br>
+        
+         <!-- <h3>District</h3>
+        <input type="text" name="city_name" placeholder="district" class="box" required /><br />
+        <h3>State</h3>
+        <input type="text" name="state_code" placeholder="State" class="box" required /><br />  -->
+        
+  
+      <div class="box ">
+       <h3> <label for="state_code">State</label></h3>
+        <select name="state_code" class="box" id="state_code">
+          <option value="SelectState">Select State</option>
+          <option value="Andra Pradesh">Andra Pradesh</option>
+          <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+          <option value="Assam">Assam</option>
+          <option value="Bihar">Bihar</option>
+          <option value="Chhattisgarh">Chhattisgarh</option>
+          <option value="Goa">Goa</option>
+          <option value="Gujarat">Gujarat</option>
+          <option value="Haryana">Haryana</option>
+          <option value="Himachal Pradesh">Himachal Pradesh</option>
+          <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+          <option value="Jharkhand">Jharkhand</option>
+          <option value="Karnataka">Karnataka</option>
+          <option value="Kerala">Kerala</option>
+          <option value="Madya Pradesh">Madya Pradesh</option>
+          <option value="Maharashtra">Maharashtra</option>
+          <option value="Manipur">Manipur</option>
+          <option value="Meghalaya">Meghalaya</option>
+          <option value="Mizoram">Mizoram</option>
+          <option value="Nagaland">Nagaland</option>
+          <option value="Orissa">Orissa</option>
+          <option value="Punjab">Punjab</option>
+          <option value="Rajasthan">Rajasthan</option>
+          <option value="Sikkim">Sikkim</option>
+          <option value="Tamil Nadu">Tamil Nadu</option>
+          <option value="Telangana">Telangana</option>
+          <option value="Tripura">Tripura</option>
+          <option value="Uttaranchal">Uttaranchal</option>
+          <option value="Uttar Pradesh">Uttar Pradesh</option>
+          <option value="West Bengal">West Bengal</option>
+          <option disabled style="background-color:#aaa; color:#fff">UNION Territories</option>
+          <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+          <option value="Chandigarh">Chandigarh</option>
+          <option value="Dadar and Nagar Haveli">Dadar and Nagar Haveli</option>
+          <option value="Daman and Diu">Daman and Diu</option>
+          <option value="Delhi">Delhi</option>
+          <option value="Lakshadeep">Lakshadeep</option>
+          <option value="Pondicherry">Pondicherry</option>
+        </select>
+      </div>
+      <div class="box">
+      <h3> <label for="city_name">District</label></h3>
+        <select name="city_name" class="box " id="city_name">
+          <option value=""  >--- select --- </option>
+        </select>
+      </div>
+      <div class="box">
+        <h3> <label for="season">Season</label></h3>
+        <select name="season" class="box" id="season">
+          <option value="">--- Select ---</option>
+          <option value="Rabi">Rabi</option>
+          <option value="Kharif">Kharif</option>
+          <option value="Zaid">Zaid</option>
+        </select>
+      </div>
+      <div class="box">
+        <input type="submit" class="button" value=" Submit " />
+      </div>
+    
+    </form></form>
+    </body>
+    
+   
+    <footer>
+      <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+        integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+        crossorigin="anonymous"></script>
+    
+      <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+        integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+        crossorigin="anonymous"></script>
+      <script>
+        var AndraPradesh = [  "--- select --- ","Anantapur", "Chittoor", "East Godavari", "Guntur", "Kadapa", "Krishna", "Kurnool", "Prakasam", "Nellore", "Srikakulam", "Visakhapatnam", "Vizianagaram", "West Godavari"];
+        var ArunachalPradesh = ["--- select --- ","Anjaw", "Changlang", "Dibang Valley", "East Kameng", "East Siang", "Kra Daadi", "Kurung Kumey", "Lohit", "Longding", "Lower Dibang Valley", "Lower Subansiri", "Namsai", "Papum Pare", "Siang", "Tawang", "Tirap", "Upper Siang", "Upper Subansiri", "West Kameng", "West Siang", "Itanagar"];
+        var Assam = ["--- select --- ", "Baksa", "Barpeta", "Biswanath", "Bongaigaon", "Cachar", "Charaideo", "Chirang", "Darrang", "Dhemaji", "Dhubri", "Dibrugarh", "Goalpara", "Golaghat", "Hailakandi", "Hojai", "Jorhat", "Kamrup Metropolitan", "Kamrup (Rural)", "Karbi Anglong", "Karimganj", "Kokrajhar", "Lakhimpur", "Majuli", "Morigaon", "Nagaon", "Nalbari", "Dima Hasao", "Sivasagar", "Sonitpur", "South Salmara Mankachar", "Tinsukia", "Udalguri", "West Karbi Anglong"];
+        var Bihar = ["--- select --- ", "Araria", "Arwal", "Aurangabad", "Banka", "Begusarai", "Bhagalpur", "Bhojpur", "Buxar", "Darbhanga", "East Champaran", "Gaya", "Gopalganj", "Jamui", "Jehanabad", "Kaimur", "Katihar", "Khagaria", "Kishanganj", "Lakhisarai", "Madhepura", "Madhubani", "Munger", "Muzaffarpur", "Nalanda", "Nawada", "Patna", "Purnia", "Rohtas", "Saharsa", "Samastipur", "Saran", "Sheikhpura", "Sheohar", "Sitamarhi", "Siwan", "Supaul", "Vaishali", "West Champaran"];
+        var Chhattisgarh = ["--- select --- ", "Balod", "Baloda Bazar", "Balrampur", "Bastar", "Bemetara", "Bijapur", "Bilaspur", "Dantewada", "Dhamtari", "Durg", "Gariaband", "Janjgir Champa", "Jashpur", "Kabirdham", "Kanker", "Kondagaon", "Korba", "Koriya", "Mahasamund", "Mungeli", "Narayanpur", "Raigarh", "Raipur", "Rajnandgaon", "Sukma", "Surajpur", "Surguja"];
+        var Goa = ["--- select --- ", "North Goa", "South Goa"];
+        var Gujarat = ["--- select --- ", "Ahmedabad", "Amreli", "Anand", "Aravalli", "Banaskantha", "Bharuch", "Bhavnagar", "Botad", "Chhota Udaipur", "Dahod", "Dang", "Devbhoomi Dwarka", "Gandhinagar", "Gir Somnath", "Jamnagar", "Junagadh", "Kheda", "Kutch", "Mahisagar", "Mehsana", "Morbi", "Narmada", "Navsari", "Panchmahal", "Patan", "Porbandar", "Rajkot", "Sabarkantha", "Surat", "Surendranagar", "Tapi", "Vadodara", "Valsad"];
+        var Haryana = ["--- select --- ", "Ambala", "Bhiwani", "Charkhi Dadri", "Faridabad", "Fatehabad", "Gurugram", "Hisar", "Jhajjar", "Jind", "Kaithal", "Karnal", "Kurukshetra", "Mahendragarh", "Mewat", "Palwal", "Panchkula", "Panipat", "Rewari", "Rohtak", "Sirsa", "Sonipat", "Yamunanagar"];
+        var HimachalPradesh = ["--- select --- ", "Bilaspur", "Chamba", "Hamirpur", "Kangra", "Kinnaur", "Kullu", "Lahaul Spiti", "Mandi", "Shimla", "Sirmaur", "Solan", "Una"];
+        var JammuKashmir = ["--- select --- ", "Anantnag", "Bandipora", "Baramulla", "Budgam", "Doda", "Ganderbal", "Jammu", "Kargil", "Kathua", "Kishtwar", "Kulgam", "Kupwara", "Leh", "Poonch", "Pulwama", "Rajouri", "Ramban", "Reasi", "Samba", "Shopian", "Srinagar", "Udhampur"];
+        var Jharkhand = ["--- select --- ", "Bokaro", "Chatra", "Deoghar", "Dhanbad", "Dumka", "East Singhbhum", "Garhwa", "Giridih", "Godda", "Gumla", "Hazaribagh", "Jamtara", "Khunti", "Koderma", "Latehar", "Lohardaga", "Pakur", "Palamu", "Ramgarh", "Ranchi", "Sahebganj", "Seraikela Kharsawan", "Simdega", "West Singhbhum"];
+        var Karnataka = ["--- select --- ", "Bagalkot", "Bangalore Rural", "Bangalore Urban", "Belgaum", "Bellary", "Bidar", "Vijayapura", "Chamarajanagar", "Chikkaballapur", "Chikkamagaluru", "Chitradurga", "Dakshina Kannada", "Davanagere", "Dharwad", "Gadag", "Gulbarga", "Hassan", "Haveri", "Kodagu", "Kolar", "Koppal", "Mandya", "Mysore", "Raichur", "Ramanagara", "Shimoga", "Tumkur", "Udupi", "Uttara Kannada", "Yadgir"];
+        var Kerala = ["--- select --- ", "Alappuzha", "Ernakulam", "Idukki", "Kannur", "Kasaragod", "Kollam", "Kottayam", "Kozhikode", "Malappuram", "Palakkad", "Pathanamthitta", "Thiruvananthapuram", "Thrissur", "Wayanad"];
+        var MadhyaPradesh = ["--- select --- ", "Agar Malwa", "Alirajpur", "Anuppur", "Ashoknagar", "Balaghat", "Barwani", "Betul", "Bhind", "Bhopal", "Burhanpur", "Chhatarpur", "Chhindwara", "Damoh", "Datia", "Dewas", "Dhar", "Dindori", "Guna", "Gwalior", "Harda", "Hoshangabad", "Indore", "Jabalpur", "Jhabua", "Katni", "Khandwa", "Khargone", "Mandla", "Mandsaur", "Morena", "Narsinghpur", "Neemuch", "Panna", "Raisen", "Rajgarh", "Ratlam", "Rewa", "Sagar", "Satna",
+          "Sehore", "Seoni", "Shahdol", "Shajapur", "Sheopur", "Shivpuri", "Sidhi", "Singrauli", "Tikamgarh", "Ujjain", "Umaria", "Vidisha"];
+        var Maharashtra = ["--- select --- ", "Ahmednagar", "Akola", "Amravati", "Aurangabad", "Beed", "Bhandara", "Buldhana", "Chandrapur", "Dhule", "Gadchiroli", "Gondia", "Hingoli", "Jalgaon", "Jalna", "Kolhapur", "Latur", "Mumbai City", "Mumbai Suburban", "Nagpur", "Nanded", "Nandurbar", "Nashik", "Osmanabad", "Palghar", "Parbhani", "Pune", "Raigad", "Ratnagiri", "Sangli", "Satara", "Sindhudurg", "Solapur", "Thane", "Wardha", "Washim", "Yavatmal"];
+        var Manipur = ["--- select --- ", "Bishnupur", "Chandel", "Churachandpur", "Imphal East", "Imphal West", "Jiribam", "Kakching", "Kamjong", "Kangpokpi", "Noney", "Pherzawl", "Senapati", "Tamenglong", "Tengnoupal", "Thoubal", "Ukhrul"];
+        var Meghalaya = ["--- select --- ", "East Garo Hills", "East Jaintia Hills", "East Khasi Hills", "North Garo Hills", "Ri Bhoi", "South Garo Hills", "South West Garo Hills", "South West Khasi Hills", "West Garo Hills", "West Jaintia Hills", "West Khasi Hills"];
+        var Mizoram = ["--- select --- ", "Aizawl", "Champhai", "Kolasib", "Lawngtlai", "Lunglei", "Mamit", "Saiha", "Serchhip", "Aizawl", "Champhai", "Kolasib", "Lawngtlai", "Lunglei", "Mamit", "Saiha", "Serchhip"];
+        var Nagaland = ["--- select --- ", "Dimapur", "Kiphire", "Kohima", "Longleng", "Mokokchung", "Mon", "Peren", "Phek", "Tuensang", "Wokha", "Zunheboto"];
+        var Orissa = ["--- select --- ", "Angul", "Balangir", "Balasore", "Bargarh", "Bhadrak", "Boudh", "Cuttack", "Debagarh", "Dhenkanal", "Gajapati", "Ganjam", "Jagatsinghpur", "Jajpur", "Jharsuguda", "Kalahandi", "Kandhamal", "Kendrapara", "Kendujhar", "Khordha", "Koraput", "Malkangiri", "Mayurbhanj", "Nabarangpur", "Nayagarh", "Nuapada", "Puri", "Rayagada", "Sambalpur", "Subarnapur", "Sundergarh"];
+        var Punjab = ["--- select --- ", "Amritsar", "Barnala", "Bathinda", "Faridkot", "Fatehgarh Sahib", "Fazilka", "Firozpur", "Gurdaspur", "Hoshiarpur", "Jalandhar", "Kapurthala", "Ludhiana", "Mansa", "Moga", "Mohali", "Muktsar", "Pathankot", "Patiala", "Rupnagar", "Sangrur", "Shaheed Bhagat Singh Nagar", "Tarn Taran"];
+        var Rajasthan = ["--- select --- ", "Ajmer", "Alwar", "Banswara", "Baran", "Barmer", "Bharatpur", "Bhilwara", "Bikaner", "Bundi", "Chittorgarh", "Churu", "Dausa", "Dholpur", "Dungarpur", "Ganganagar", "Hanumangarh", "Jaipur", "Jaisalmer", "Jalore", "Jhalawar", "Jhunjhunu", "Jodhpur", "Karauli", "Kota", "Nagaur", "Pali", "Pratapgarh", "Rajsamand", "Sawai Madhopur", "Sikar", "Sirohi", "Tonk", "Udaipur"];
+        var Sikkim = ["--- select --- ", "East Sikkim", "North Sikkim", "South Sikkim", "West Sikkim"];
+        var TamilNadu = ["--- select --- ", "Ariyalur", "Chennai", "Coimbatore", "Cuddalore", "Dharmapuri", "Dindigul", "Erode", "Kanchipuram", "Kanyakumari", "Karur", "Krishnagiri", "Madurai", "Nagapattinam", "Namakkal", "Nilgiris", "Perambalur", "Pudukkottai", "Ramanathapuram", "Salem", "Sivaganga", "Thanjavur", "Theni", "Thoothukudi", "Tiruchirappalli", "Tirunelveli", "Tiruppur", "Tiruvallur", "Tiruvannamalai", "Tiruvarur", "Vellore", "Viluppuram", "Virudhunagar"];
+        var Telangana = ["--- select --- ", "Adilabad", "Bhadradri Kothagudem", "Hyderabad", "Jagtial", "Jangaon", "Jayashankar", "Jogulamba", "Kamareddy", "Karimnagar", "Khammam", "Komaram Bheem", "Mahabubabad", "Mahbubnagar", "Mancherial", "Medak", "Medchal", "Nagarkurnool", "Nalgonda", "Nirmal", "Nizamabad", "Peddapalli", "Rajanna Sircilla", "Ranga Reddy", "Sangareddy", "Siddipet", "Suryapet", "Vikarabad", "Wanaparthy", "Warangal Rural", "Warangal Urban", "Yadadri Bhuvanagiri"];
+        var Tripura = ["--- select --- ", "Dhalai", "Gomati", "Khowai", "North Tripura", "Sepahijala", "South Tripura", "Unakoti", "West Tripura"];
+        var UttarPradesh = ["--- select --- ", "Agra", "Aligarh", "Allahabad", "Ambedkar Nagar", "Amethi", "Amroha", "Auraiya", "Azamgarh", "Baghpat", "Bahraich", "Ballia", "Balrampur", "Banda", "Barabanki", "Bareilly", "Basti", "Bhadohi", "Bijnor", "Budaun", "Bulandshahr", "Chandauli", "Chitrakoot", "Deoria", "Etah", "Etawah", "Faizabad", "Farrukhabad", "Fatehpur", "Firozabad", "Gautam Buddha Nagar", "Ghaziabad", "Ghazipur", "Gonda", "Gorakhpur", "Hamirpur", "Hapur", "Hardoi", "Hathras", "Jalaun", "Jaunpur", "Jhansi", "Kannauj", "Kanpur Dehat", "Kanpur Nagar", "Kasganj", "Kaushambi", "Kheri", "Kushinagar", "Lalitpur", "Lucknow", "Maharajganj", "Mahoba", "Mainpuri", "Mathura", "Mau", "Meerut", "Mirzapur", "Moradabad", "Muzaffarnagar", "Pilibhit", "Pratapgarh", "Raebareli", "Rampur", "Saharanpur", "Sambhal", "Sant Kabir Nagar", "Shahjahanpur", "Shamli", "Shravasti", "Siddharthnagar", "Sitapur", "Sonbhadra", "Sultanpur", "Unnao", "Varanasi"];
+        var Uttarakhand = ["--- select --- ", "Almora", "Bageshwar", "Chamoli", "Champawat", "Dehradun", "Haridwar", "Nainital", "Pauri", "Pithoragarh", "Rudraprayag", "Tehri", "Udham Singh Nagar", "Uttarkashi"];
+        var WestBengal = ["--- select --- ", "Alipurduar", "Bankura", "Birbhum", "Cooch Behar", "Dakshin Dinajpur", "Darjeeling", "Hooghly", "Howrah", "Jalpaiguri", "Jhargram", "Kalimpong", "Kolkata", "Malda", "Murshidabad", "Nadia", "North 24 Parganas", "Paschim Bardhaman", "Paschim Medinipur", "Purba Bardhaman", "Purba Medinipur", "Purulia", "South 24 Parganas", "Uttar Dinajpur"];
+        var AndamanNicobar = ["--- select --- ", "Nicobar", "North Middle Andaman", "South Andaman"];
+        var Chandigarh = ["--- select --- ", "Chandigarh"];
+        var DadraHaveli = ["--- select --- ", "Dadra Nagar Haveli"];
+        var DamanDiu = ["--- select --- ", "Daman", "Diu"];
+        var Delhi = ["--- select --- ", "Central Delhi", "East Delhi", "New Delhi", "North Delhi", "North East Delhi", "North West Delhi", "Shahdara", "South Delhi", "South East Delhi", "South West Delhi", "West Delhi"];
+        var Lakshadweep = ["--- select --- ", "Lakshadweep"];
+        var Puducherry = ["--- select --- ", "Karaikal", "Mahe", "Puducherry", "Yanam"];
+
+        $("#state_code").change(function () {
+          var StateSelected = $(this).val();
+          var optionsList;
+          var htmlString = "";
+
+          switch (StateSelected) {
+            case "Andra Pradesh":
+              optionsList = AndraPradesh;
+              break;
+            case "Arunachal Pradesh":
+              optionsList = ArunachalPradesh;
+              break;
+            case "Assam":
+              optionsList = Assam;
+              break;
+            case "Bihar":
+              optionsList = Bihar;
+              break;
+            case "Chhattisgarh":
+              optionsList = Chhattisgarh;
+              break;
+            case "Goa":
+              optionsList = Goa;
+              break;
+            case "Gujarat":
+              optionsList = Gujarat;
+              break;
+            case "Haryana":
+              optionsList = Haryana;
+              break;
+            case "Himachal Pradesh":
+              optionsList = HimachalPradesh;
+              break;
+            case "Jammu and Kashmir":
+              optionsList = JammuKashmir;
+              break;
+            case "Jharkhand":
+              optionsList = Jharkhand;
+              break;
+            case "Karnataka":
+              optionsList = Karnataka;
+              break;
+            case "Kerala":
+              optionsList = Kerala;
+              break;
+            case "Madya Pradesh":
+              optionsList = MadhyaPradesh;
+              break;
+            case "Maharashtra":
+              optionsList = Maharashtra;
+              break;
+            case "Manipur":
+              optionsList = Manipur;
+              break;
+            case "Meghalaya":
+              optionsList = Meghalaya;
+              break;
+            case "Mizoram":
+              optionsList = Mizoram;
+              break;
+            case "Nagaland":
+              optionsList = Nagaland;
+              break;
+            case "Orissa":
+              optionsList = Orissa;
+              break;
+            case "Punjab":
+              optionsList = Punjab;
+              break;
+            case "Rajasthan":
+              optionsList = Rajasthan;
+              break;
+            case "Sikkim":
+              optionsList = Sikkim;
+              break;
+            case "Tamil Nadu":
+              optionsList = TamilNadu;
+              break;
+            case "Telangana":
+              optionsList = Telangana;
+              break;
+            case "Tripura":
+              optionsList = Tripura;
+              break;
+            case "Uttaranchal":
+              optionsList = Uttaranchal;
+              break;
+            case "Uttar Pradesh":
+              optionsList = UttarPradesh;
+              break;
+            case "West Bengal":
+              optionsList = WestBengal;
+              break;
+            case "Andaman and Nicobar Islands":
+              optionsList = AndamanNicobar;
+              break;
+            case "Chandigarh":
+              optionsList = Chandigarh;
+              break;
+            case "Dadar and Nagar Haveli":
+              optionsList = DadraHaveli;
+              break;
+            case "Daman and Diu":
+              optionsList = DamanDiu;
+              break;
+            case "Delhi":
+              optionsList = Delhi;
+              break;
+            case "Lakshadeep":
+              optionsList = Lakshadeep;
+              break;
+            case "Pondicherry":
+              optionsList = Pondicherry;
+              break;
+          }
+
+          for (var i = 0; i < optionsList.length; i++) {
+            htmlString = htmlString + "<option value='" + optionsList[i] + "'>" + optionsList[i] + "</option>";
+          }
+          $("#city_name").html(htmlString);
+
+        });
+      </script>
+</html>
+
 {% endblock%}
